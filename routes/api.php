@@ -17,4 +17,4 @@ use App\Http\Controllers\ArticlesController;
 
 
 
-Route::resource('articles', ArticlesController::class);
+Route::apiResource('articles', ArticlesController::class);

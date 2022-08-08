@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use App\Http\Resources\Article as ArticleResource;
+use App\Http\Resources\ArticleCollection;
 
 class ArticlesController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +17,12 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        return Article::all();
+        $articles = Article::all();
+
+        return response()->json([
+            "articles" => new ArticleCollection($articles)
+        ]);
+
     }
 
     /**
@@ -35,7 +43,11 @@ class ArticlesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $article = Article::create([
+            "title" => $request->title,
+            "body" => $request->body
+        ]);
+        return $article;
     }
 
     /**
@@ -46,7 +58,11 @@ class ArticlesController extends Controller
      */
     public function show($id)
     {
-        //
+        $article = Article::find($id);
+
+        return response()->json([
+            "article" => new ArticleResource($article)
+        ]);
     }
 
     /**
@@ -69,7 +85,14 @@ class ArticlesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $article = Article::find($id);
+
+        $article->title = $request->title;
+        $article->body = $request->body;
+
+        $article->save();
+
+        return $article;
     }
 
     /**
@@ -80,6 +103,20 @@ class ArticlesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article = Article::find($id);
+
+        if (!$article) {
+            return response()->json([
+                "status" => false,
+                "message" => "Article with ID {{ $id }} not found"
+            ])->setStatusCode(404, 'Article Not Found');
+        }
+
+        $article->delete();
+
+        return response()->json([
+            "status" => true,
+            "message" => "Deleted successfuly"
+        ]);
     }
 }
