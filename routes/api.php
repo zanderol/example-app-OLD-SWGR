@@ -18,3 +18,5 @@ use App\Http\Controllers\ArticlesController;
 
 
 Route::apiResource('articles', ArticlesController::class);
+
+Route::get('/articles/search/{searchVar}', [ArticlesController::class,'search']);

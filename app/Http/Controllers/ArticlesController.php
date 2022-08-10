@@ -119,4 +119,9 @@ class ArticlesController extends Controller
             "message" => "Deleted successfuly"
         ]);
     }
+
+    public function search($searchVar){
+
+        return Article::where("title", "like", "%".$searchVar."%")->get();
+    }
 }
