@@ -11,13 +11,37 @@ class ArticlesController extends Controller
 {
 
     /**
+     * @OA\Get(
+     *     path="/articles",
+     *     operationId="articlesAll",
+     *     tags={"Articles"},
+     *     summary="Display a listing of the resource",
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="The page number",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *      response="404",
+     *      description="Article not found"
+     *      ),
+     *     @OA\Response(
+     *      response="",
+     *      description="Everything is fine"
+     *      )
+     * )
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        $articles = Article::all();
+        $articles = Article::query()->paginate(4);
 
         return response()->json([
             "articles" => new ArticleCollection($articles)
@@ -36,6 +60,7 @@ class ArticlesController extends Controller
     }
 
     /**
+     * 
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -119,6 +144,8 @@ class ArticlesController extends Controller
             "message" => "Deleted successfuly"
         ]);
     }
+
+//    Search by Title value in DB.
 
     public function search($searchVar){
 
