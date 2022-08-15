@@ -26,11 +26,11 @@ class ArticlesController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *      response="404",
+     *      response=404,
      *      description="Article not found"
      *      ),
      *     @OA\Response(
-     *      response="",
+     *      response=200,
      *      description="Everything is fine"
      *      )
      * )
@@ -50,6 +50,24 @@ class ArticlesController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *     path="/articles",
+     *     operationId="articleCreate",
+     *     tags={"Examples"},
+     *     summary="Create yet another article record",
+     *     security={
+     *       {"api_key": {}},
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="Everything is fine",
+     *         @OA\JsonContent(ref="#/components/schemas/ArticleShowRequest")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/ArticleStoreRequest")
+     *     ),
+     * )
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

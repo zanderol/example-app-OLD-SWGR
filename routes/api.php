@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticlesController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,11 @@ use App\Http\Controllers\ArticlesController;
 */
 
 
-
+// resources controllers route for CRUD
 Route::apiResource('articles', ArticlesController::class);
 
+//search route
 Route::get('/articles/search/{searchVar}', [ArticlesController::class,'search']);
+
+//user
+\Route::post('/register', [UserController::class, "register"]);
